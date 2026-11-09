@@ -1,7 +1,7 @@
 # PopPopBoat · NodeMCU ESP8266
 
 Control local del timón desde el navegador del teléfono. El firmware crea la red
-`PopPopBoat` (clave `12345678`) y sirve la interfaz en `http://192.168.4.1`.
+`PopPopBoat` (clave `<agregar>`) y sirve la interfaz en `http://192.168.4.1`.
 No necesita internet, un servidor en la computadora ni mantener VS Code abierto.
 Cada vez que recibe alimentación por micro-USB, la placa inicia el WiFi y el
 servidor automáticamente. El teléfono debe permanecer conectado a `PopPopBoat`,
