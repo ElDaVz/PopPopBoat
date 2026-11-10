@@ -2,4 +2,8 @@
 .vscode/
 backups/    
 build/
+ios/.build/
+ios/.bsp/
+ios/.swiftpm/
+ios/xtool/
 

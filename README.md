@@ -1,11 +1,29 @@
-# PopPopBoat · NodeMCU ESP8266
+# PopPopBoat · iPhone y NodeMCU ESP8266
 
-Control local del timón desde el navegador del teléfono. El firmware crea la red
-`PopPopBoat` (clave `<agregar>`) y sirve la interfaz en `http://192.168.4.1`.
-No necesita internet, un servidor en la computadora ni mantener VS Code abierto.
+La app nativa de iPhone controla el timón por la red Wi-Fi local de la
+NodeMCU ESP8266. Con el firmware de este repositorio, la red `PopPopBoat` es
+abierta y la placa responde en `192.168.4.1`. El control funciona sin internet.
 Cada vez que recibe alimentación por micro-USB, la placa inicia el WiFi y el
 servidor automáticamente. El teléfono debe permanecer conectado a `PopPopBoat`,
 aunque iOS indique que esa red no tiene internet.
+
+## Instalar la app en el iPhone
+
+En la terminal donde tienes xtool, abre la carpeta `ios` del repositorio.
+El proyecto requiere Swift 6.4 e iOS 17 o posterior.
+
+```sh
+cd ios
+xtool dev
+```
+
+Conecta el iPhone por USB para instalar la app. Después, en **Ajustes → Wi-Fi**,
+únete a **PopPopBoat**, abre la app y permite el acceso a la **red local**.
+Si la versión de firmware que tienes instalada pide una clave Wi-Fi, usa la
+que se configuró en esa placa.
+Si antes lo rechazaste, actívalo en **Ajustes → Privacidad y seguridad → Red local**.
+La app usa la API que ya sirve la placa. Si ya tiene el firmware de este
+repositorio, puedes usarla con la calibración que guardaste anteriormente.
 
 ## Archivos y carga
 
@@ -79,11 +97,11 @@ común a GND; alimentar el rojo desde la fuente del servo.
 
 ## Uso desde iPhone: servo continuo
 
-1. Encender la placa y conectar el teléfono a `PopPopBoat`, clave `12345678`.
-2. Abrir `http://192.168.4.1` y recargar para sustituir la página anterior.
-3. Abrir **Calibrar el servo continuo**. Trabajar con el eje libre, sin
+1. Encender la placa y conectar el teléfono a la red Wi-Fi `PopPopBoat`.
+2. Abrir la app **PopPopBoat** y esperar a que muestre **Conectado a PopPopBoat**.
+3. Ir a **Calibración del servo**. Trabajar con el eje libre, sin
    llevar el mecanismo contra topes.
-4. Empezar por **Probar parada**: aplica la señal neutra durante 1,5 s.
+4. Empezar por **Probar neutro durante 1,5 s**.
    El valor inicial es 1500 µs. Si gira, variar unos pocos µs y repetir hasta
    encontrar el valor que lo deja quieto.
 5. Marcar visualmente el eje y probar cada sentido por separado. Los 200 ms
@@ -91,10 +109,10 @@ común a GND; alimentar el rojo desde la fuente del servo.
    duración hasta que la prueba recorra 90°. Si se puede medir el ángulo:
    `tiempo nuevo = tiempo usado × 90 / ángulo observado`. Repetir la prueba
    para verificar. Las velocidades pueden diferir entre sentidos.
-6. Marcar la casilla de confirmación y **Guardar calibración en la placa**.
+6. Marcar la casilla de confirmación y pulsar **Guardar calibración**.
    El neutro y los dos tiempos quedan en memoria EEPROM emulada.
 7. Alinear físicamente el timón al centro usando los pulsos cortos de 40 ms,
-   sin forzar el eje con la mano, y pulsar **Está en 90°**.
+   sin forzar el eje con la mano, y pulsar **Marcar centro en 90°**.
 8. Usar los botones **0°**, **90°** y **180°**. Son destinos estimados:
    el firmware calcula la duración desde la posición estimada anterior.
    Los botones de posición permanecen bloqueados mientras hay un giro.
@@ -104,8 +122,8 @@ firmware escribe el neutro configurado y suspende los pulsos PWM; no conserva
 una orden de velocidad distinta de cero. Al encender tampoco se emiten pulsos
 hasta una orden explícita. Una prueba dura como máximo 5 segundos; un recorrido
 completo de 180° puede durar el doble del tiempo calibrado para 90°. El fin del
-recorrido se programa en el microcontrolador y no depende de que el navegador
-permanezca abierto. No es un freno mecánico ni una parada eléctrica de emergencia.
+recorrido se programa en el microcontrolador, incluso si cierras la app.
+El botón de parada no sustituye un freno mecánico ni una parada eléctrica de emergencia.
 
 La calibración queda guardada, pero **el centro se marca después de cada
 encendido**. Los pulsos de ajuste o prueba invalidan la referencia; después de
